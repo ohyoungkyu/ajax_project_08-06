@@ -1,5 +1,7 @@
 package com.ll.exam;
 
+import com.ll.exam.Member.MemberController;
+import com.ll.exam.article.ArticleController;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +14,21 @@ import java.io.IOException;
 public class DispatchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().append("work?");
+        Rq rq = new Rq(req,resp);
+
+        ArticleController articleController = new ArticleController();
+        MemberController memberController = new MemberController();
+
+
+        String url = req.getRequestURI();
+
+        switch ( url) {
+            case "/usr/article/list":
+                articleController.showList(rq);
+                break;
+            case "/usr/member/login":
+                memberController.showLogin(rq);
+                break;
+        }
     }
 }
